@@ -1,29 +1,45 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import './App.scss';
 import { GoodsList } from './GoodsList';
+import { Good } from './types/Good';
 
 import { getAll, get5First, getRedGoods } from './api/goods';
 
 export const App: React.FC = () => {
-  const [goods, setGoods] = useState([]);
+  const [goods, setGoods] = useState<Good[]>([]);
 
-  const AllGoods = async () => {
-    const loadedGoods = await getAll();
+  const AllGoods = useCallback(async () => {
+    try {
+      const loadedGoods = await getAll();
 
-    setGoods(loadedGoods);
-  };
+      setGoods(loadedGoods);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Failed to all goods', error);
+    }
+  }, []);
 
-  const fiveGoods = async () => {
-    const loadedGoods = await get5First();
+  const fiveGoods = useCallback(async () => {
+    try {
+      const loadedGoods = await get5First();
 
-    setGoods(loadedGoods);
-  };
+      setGoods(loadedGoods);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Failed to five first goods', error);
+    }
+  }, []);
 
-  const redGoods = async () => {
-    const loadedGoods = await getRedGoods();
+  const redGoods = useCallback(async () => {
+    try {
+      const loadedGoods = await getRedGoods();
 
-    setGoods(loadedGoods);
-  };
+      setGoods(loadedGoods);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Failed to red goods', error);
+    }
+  }, []);
 
   return (
     <div className="App">
